@@ -1,10 +1,9 @@
 const express = require("express");
 const path = require("path");
-const app = express();
-
-
-
 var Rollbar = require("rollbar");
+
+
+
 var rollbar = new Rollbar({
   accessToken: "fa4427408b2e446ba87323a0438bc880",
   captureUncaught: true,
@@ -34,22 +33,19 @@ app.get("/style", (req, res) => {
 
 
 let movies = [];
-app.post("/api/student", (req, res) => {
+app.post("/api/movie", (req, res) => {
   let { name } = req.body;
   name = name.trim();
 
-  const index = movies.findIndex((movieName) => movieName === name);
+  const index = movies.findIndex(movieName => movieName === name);
 
   if (index === -1 && name !== "") {
     movies.push(name);
-    rollbar.log("MOVIE added successfully", {
-      author: "Squid Game",
-      type: "manual entry",
-    });
+    rollbar.log("MOVIE added successfully", {author: "Squid Game",type: "manual entry"})
     res.status(200).send(movies);
   } else if (name === "") {
     rollbar.error("No name given");
-    res.status(400).send("Please provide a name.");
+    res.status(400).send("Please provide a movie's name.");
   } else {
     rollbar.critical("This movie already exist");
     res.status(400).send("that movie already exists");
