@@ -8,5 +8,26 @@
 </head>
 <body>
   <h1> Hello there</h1>
+  <button id="quoteButton">Quote of the day</button>
+
+
+
+
+
+  <script>
+      document.getElementById("quoteButton").onclick = function () {
+        axios
+          .get("http://localhost:4444/api/quote/")
+          .then(function (response) {
+            const data = response.data;
+            alert(data);
+          });
+      };
+    </script>
+
+
+
+
+
 </body>
 </html>

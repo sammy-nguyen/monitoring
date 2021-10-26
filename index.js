@@ -25,6 +25,31 @@ app.get("/", (req, res) => {
   rollbar.log("Congrats, html file showed up ");
 });
 
+
+
+
+
+
+
+
+
+
+
+app.get("/api/quote", (req, res) => {
+  const quotes = [
+    "You can get everything in life you want if you will just help enough other people get what they want",
+    "Success is not final; failure is not fatal: It is the courage to continue that counts.",
+    "I never dreamed about success. I worked for it.",
+  ];
+  let randomIndex = Math.floor(Math.random() * quotes.length);
+  let randomQuotes = quotes[randomIndex];
+
+  res.status(200).send(randomQuotes);
+});
+
+
+
+
 app.use(rollbar.errorHandler());
 
 const port = process.env.PORT || 4444;
