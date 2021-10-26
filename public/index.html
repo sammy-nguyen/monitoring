@@ -32,7 +32,7 @@
                 .catch(err => {
                     nameInput.value = ''
 
-                    const notif = document.createElement('aside')
+                    const notif = document.createElement('style')
                     notif.innerHTML = `<p>${err.response.data}</p>
                     <button class='close'>close</button>`
                     document.body.appendChild(notif)
