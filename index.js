@@ -1,9 +1,6 @@
 const express = require("express");
 const path = require("path");
 const app = express();
-app.use(express.json());
-
-
 
 
 
@@ -14,6 +11,9 @@ var rollbar = new Rollbar({
   captureUnhandledRejections: true,
 });
 
+
+const app = express();
+app.use(express.json());
 
 
 
@@ -26,22 +26,39 @@ app.get("/", (req, res) => {
 
 
 
-
-
-
-
-
-app.get("/api/quote", (req, res) => {
-  const quotes = [
-    "You can get everything in life you want if you will just help enough other people get what they want",
-    "Success is not final; failure is not fatal: It is the courage to continue that counts.",
-    "I never dreamed about success. I worked for it.",
-  ];
-  let randomIndex = Math.floor(Math.random() * quotes.length);
-  let randomQuotes = quotes[randomIndex];
-
-  res.status(200).send(randomQuotes);
+app.get("/style", (req, res) => {
+  let { name } = req.body;
+  res.sendFile(path.join(__dirname, "/public/index.css"));
 });
+
+
+
+let movies = [];
+app.post("/api/student", (req, res) => {
+  let { name } = req.body;
+  name = name.trim();
+
+  const index = movies.findIndex((movieName) => movieName === name);
+
+  if (index === -1 && name !== "") {
+    movies.push(name);
+    rollbar.log("MOVIE added successfully", {
+      author: "Squid Game",
+      type: "manual entry",
+    });
+    res.status(200).send(movies);
+  } else if (name === "") {
+    rollbar.error("No name given");
+    res.status(400).send("Please provide a name.");
+  } else {
+    rollbar.critical("This movie already exist");
+    res.status(400).send("that movie already exists");
+  }
+});
+
+
+
+
 
 
 
