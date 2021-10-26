@@ -11,10 +11,16 @@ let rollbar = new Rollbar({
 });
 
 
+
 app.get("/", (req, res) => {
   res.sendFile(path.join(__dirname, "/public/index.html"));
   rollbar.info("Congrats, html file showed up ")
 });
+
+
+
+
+
 
 
 
